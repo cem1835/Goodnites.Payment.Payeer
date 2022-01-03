@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Goodnites.Payment.Payeer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="4.4.4" />
+    <ProjectReference Include="..\Goodnites.Payment.Payeer.Domain\Goodnites.Payment.Payeer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

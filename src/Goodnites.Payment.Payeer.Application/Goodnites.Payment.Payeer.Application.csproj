@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Goodnites.Payment.Payeer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="4.4.4" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="4.4.4" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="4.4.4" />
+    <ProjectReference Include="..\Goodnites.Payment.Payeer.Application.Contracts\Goodnites.Payment.Payeer.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Goodnites.Payment.Payeer.Domain\Goodnites.Payment.Payeer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

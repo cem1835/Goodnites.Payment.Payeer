@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Goodnites.Payment.Payeer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Goodnites.Payment.Payeer.Application\Goodnites.Payment.Payeer.Application.csproj" />
+    <ProjectReference Include="..\Goodnites.Payment.Payeer.Domain.Tests\Goodnites.Payment.Payeer.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+  </ItemGroup>
+
+</Project>

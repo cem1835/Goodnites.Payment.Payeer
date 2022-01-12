@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Volo.Abp;
 
-namespace Goodnites.Payment.Payeer.Payeer
+namespace Goodnites.Payment.Payeer
 {
     public sealed class PayeerModel
     {
@@ -47,18 +47,21 @@ namespace Goodnites.Payment.Payeer.Payeer
         ///  The merchant’s ID
         /// </summary>
         [JsonProperty("m_shop")]
-        private string MerchantId { get; set; }
+        public string MerchantId { get; private set; }
 
         /// <summary>
         /// A security signature used to check the cohesiveness of the information obtained and directly identify the sender.
         /// </summary>
         [JsonProperty("m_sign")]
-        private string Hash { get; set; }
+        public string Hash { get; private set; }
 
+        [JsonProperty("m_params")] public string AdditionalParamaters { get; set; }
 
         [JsonIgnore] private string SecretKey { get; set; }
-        
+
         [JsonIgnore] public string RawDescription => Encoding.UTF8.GetString(Convert.FromBase64String(Description));
+
+        [JsonIgnore] public bool HashCreated => Hash.IsNullOrEmpty() == false;
 
         private PayeerModel()
         {
@@ -76,7 +79,7 @@ namespace Goodnites.Payment.Payeer.Payeer
             Currency = currency;
             Description = Convert.ToBase64String(Encoding.UTF8.GetBytes(description));
         }
-        
+
         public PayeerModel(
             string merchantId,
             string secretKey,
@@ -89,7 +92,7 @@ namespace Goodnites.Payment.Payeer.Payeer
             MerchantId = merchantId;
             SecretKey = secretKey;
             PaymentId = paymentId;
-            Amount = amount;
+            Amount = int.Parse(amount).ToString("#.00"); // TODO : 
             Currency = currency;
             Description = Convert.ToBase64String(Encoding.UTF8.GetBytes(description));
 
@@ -121,16 +124,13 @@ namespace Goodnites.Payment.Payeer.Payeer
             {
                 throw new UserFriendlyException("Undefined SecretKey");
             }
-            
-            var paymentInfoArray = new string[] { MerchantId, PaymentId, Amount, Currency, Description, SecretKey };
-            var paymentInfoStr = String.Join(".", paymentInfoArray);
-            
+
+            var paymentInfoArray = new string[] {MerchantId, PaymentId, Amount, Currency, Description, SecretKey};
+            var paymentInfoStr = String.Join(":", paymentInfoArray);
+
             byte[] data = Encoding.Default.GetBytes(paymentInfoStr);
             var result = new SHA256Managed().ComputeHash(data);
-            Hash = BitConverter.ToString(result).Replace("-","").ToUpper();
-            
+            Hash = BitConverter.ToString(result).Replace("-", "").ToUpper();
         }
-
-    
     }
 }
